@@ -1,0 +1,42 @@
+<div class="global-container">
+    <div class="row">
+        <div class="col-md-5">    
+            <!-- <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>    -->
+        </div>
+        <div class="col-md-2" >    
+            <!-- <div *ngIf="isCall">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>   
+        </div> -->
+        </div>
+        <div class="col-md-5">
+            <div class="login-bg">
+              
+                <div class="card login-form">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="./../../../assets/images/s2m logo.png" class="img-fluid login-logo" alt="">
+                        </div>
+                        <div class="card-text">
+                            <form [formGroup]="form" (ngSubmit)="submit()">
+                                <label class="mb-1 label">Email ID</label>
+                                <div style="position: relative;">
+                                    <input class="form-input" type="text" formControlName="username">
+                                </div>
+                                <label class="mb-1 label">Password</label>
+                                <div style="position: relative;">
+                                    <input class="form-input password" type="password" formControlName="password" [type]="showPassword ? 'password' : 'text'">
+                                    <mat-icon class="pwd_eyeicon" matSuffix (click)="showPassword = !showPassword">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </div>
+                                <div class="text-right forgot-password"><a  [routerLink]="['/forgot-password']">Forgot Password?</a></div>
+                                <button class="w-100 login-btn mt-3" type="submit" mat-raised-button >Log In</button>
+                                <div class="login-footer py-3">
+                                    <span><b class="powered">Powered By</b> &nbsp;<a href="https://neutrinotechsystems.com/" target="_blank"> <img src="./../../../assets/images/Group 1221.png"  class="img-fluid powered-logo" alt=""></a></span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

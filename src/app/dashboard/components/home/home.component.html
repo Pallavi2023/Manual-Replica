@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <!-- <div class="container"> -->
+        <div ></div>
+        <div class="row">
+            <div class="col-12">
+                <img class="img-fluid login-logo border-rad-10" src="./../../../../assets/images/homepage/landpage.png"/>  
+            </div>
+           
+        </div>
+        <div class="row px-2">
+            <div *ngIf="this.userAccess.user" (click)="navigate('/wrapper/user')" class="col-sm-6 col-md-3 col-lg-2">
+                <mat-card class="my-3 p-0 greybg ">
+                    <div class="row">
+                        <div class="col-sm-4 pr-0 d-flex align-items-center justify-content-center">
+                            <!-- <i class="fa fa-users m-0 side-icon" aria-hidden="true"></i> -->
+                            <img class="iconbg rounded_5px wht_icon" src="./../../.././../assets/images/user.svg">
+                        </div>
+                        <div class="col-sm-8 pl-0 d-flex align-items-center justify-content-center">
+                            <span class=" p-3 font"> Users </span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngIf="this.userAccess.role" (click)="navigate('/wrapper/role')" class="col-sm-6 col-md-3 col-lg-2">
+                <mat-card class="my-3 p-0 greybg ">
+                    <div class="row">
+                        <div  class="col-sm-4 pr-0 d-flex align-items-center justify-content-center">
+                            <!-- <i class="fa fa-id-card m-0 side-icon" aria-hidden="true"></i> -->
+                            <img class="iconbg rounded_5px wht_icon" src="./../../.././../assets/images/homepage/Roles.svg">
+
+                        </div>
+                        <div class="col-sm-8 pl-0 d-flex align-items-center justify-content-center">
+                            <span class=" p-3 font"> Roles </span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <!-- <div *ngIf="this.userAccess.project" (click)="navigate('/wrapper/project')"
+                class="col-sm-6 col-md-3 col-lg-2">
+                <mat-card class="my-3 p-0 greybg ">
+                    <div class="row">
+                        <div  class="col-sm-4 pr-0 d-flex align-items-center justify-content-center">
+                            <img class="iconbg rounded_5px wht_icon" src="./../../.././../assets/images/homepage/Project.svg">
+                        </div>
+                        <div class="col-sm-8 pl-0 d-flex align-items-center justify-content-center">
+                            <span class=" p-3 font"> Projects </span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngIf="this.userAccess.operator" (click)="navigate('/wrapper/operator')"
+                class="col-sm-6 col-md-3 col-lg-2">
+                <mat-card class="my-3 p-0 greybg ">
+                    <div class="row">
+                        <div  class="col-sm-4 pr-0 d-flex align-items-center justify-content-center">
+                            <img class="iconbg rounded_5px wht_icon" src="./../../.././../assets/images/homepage/entries.svg">
+                        </div>
+                        <div class="col-sm-8 pl-0 d-flex align-items-center justify-content-center">
+                            <span class="p-3 font"> Entries </span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+            <div *ngIf="this.userAccess.audit" (click)="navigate('/wrapper/audit')" class="col-sm-6 col-md-3 col-lg-2">
+                <mat-card class="my-3 p-0 greybg ">
+                    <div class="row">
+                        <div  class="col-sm-4 pr-0 d-flex align-items-center justify-content-center">
+                            <img class="iconbg rounded_5px audit_icon" src="./../../.././../assets/images/homepage/Audit.svg">
+                        </div>
+                        <div class="col-sm-8 pl-0 d-flex align-items-center justify-content-center">
+                            <span class="p-3  font"> Audit </span>
+                        </div>
+                    </div>
+                </mat-card>
+            </div> -->
+        </div>
+    <!-- </div> -->
+</div>
