@@ -1,0 +1,180 @@
+<div class="container-fluid p-3">
+    <div class="row">
+      <div class="mt-3 pb-3">
+        <!-- <span class="head">Create New Project</span> -->
+        <span class="head" >{{isCreateUserOperation?'Update Project':'Create New Project'}}</span>
+  
+        <button mat-raised-button color="Basic" class="font-17 float-right btn-xs-block btn-info"
+          [routerLink]="['/wrapper/project']" style="color: #3CA7C5;">
+          Cancel
+        </button>
+        
+        <button mat-raised-button color="primary" class="font-17 float-right btn-xs-block btn-info btn-col"
+          (click)="updateProject()" *ngIf="this.isEdit == true">
+          Update</button>
+        <button mat-raised-button color="primary" class="font-17 float-right btn-xs-block btn-info btn-col"
+          (click)="addProject()" *ngIf="this.isEdit == false" style="margin-right: 8px">
+          Create
+        </button>
+      </div>
+      <form [formGroup]="projectForm">
+        <mat-card class="border rounded my-2">
+          <div class="row">
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Project Name</mat-label>
+                <input maxlength="75" formControlName="project" matInput
+                   type="text" #project required
+                  (blur)="trim($event.target)" />
+                  
+                <mat-error>{{projectErrorMsg}}</mat-error>
+                <mat-hint [align]="'end'">{{project.value.length}} / 75</mat-hint>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Start Date</mat-label>
+  
+                <input formControlName="startDate" matInput [matDatepicker]="picker" />
+  
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="projectForm.controls['startDate'].hasError('required')">Please enter the date in
+                  MM/DD/YYYY format.</mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-4 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+  
+                <input formControlName="endDate" matInput [matDatepicker]="picker1" [min]="minDate" />
+  
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="projectForm.controls['endDate'].hasError('required' || 'minDate')">End date cannot be
+                  less than Start Date</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-4 col-md-3 col-lg-3" style="padding-left: 3%; margin-top: 1%">
+              <label class="heading-text">Status: &nbsp;</label>
+              <mat-slide-toggle class="text-font" formControlName="status" #myToggle>{{ myToggle.checked ? "Active" :
+                "Inactive" }}</mat-slide-toggle>
+            </div>
+          </div>
+        </mat-card>
+      </form>
+      <mat-accordion class="example-headers-align">
+        <mat-expansion-panel class="mb-3" hideToggle="true" #roles>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="justify-content-start">
+              <mat-icon [ngClass]="{
+                  'primary-font-color': roles.expanded,
+                  'text-secondary': !roles.expanded
+                }">
+                {{ roles.expanded ? "keyboard_arrow_up" : "keyboard_arrow_down" }}
+              </mat-icon>
+              &nbsp;
+              <span class="ml-2 head" [ngClass]="{
+                  'primary-font-color': roles.expanded,
+                  'text-secondary': !roles.expanded
+                }">Roles</span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="invisible">Processing Time Taken By The Documents</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <div class="container-fluid rounded greybg roles">
+            <div class="row text-font border" style="background-color: #e4e5e6;">
+              <div class="col-md-2 d-flex justify-content-start align-items-center">
+                <div class="p-2">Roles</div>
+              </div>
+              <div class="col-md-10 d-flex align-items-center">
+                <div class="p-2">Users</div>
+              </div>
+            </div>
+            <div *ngFor="let rolesWithUsers of selectedProjectInfo.roles; let i = index">
+              <div class="row border">
+                <div class="col-sm-2 mt-2 white_bg d-flex justify-content-start align-items-center">
+                  <i class="fa fa-id-card primary-font-color mr-2" aria-hidden="true"></i>&nbsp;
+                  {{ rolesWithUsers.role }}
+                </div>
+                <div class="col-sm-9 mt-2 white_bg py-2 px-0">
+                  <div class="row">
+                    <div class="col-sm-11 d-flex align-items-center">
+                      <mat-chip-list aria-label="roles">
+                        <mat-chip *ngFor="let assignedUser of rolesWithUsers.users;let j = index">
+                          {{ assignedUser }}
+                          <mat-icon (click)="removeRole(i, assignedUser)" matChipRemove>cancel
+                          </mat-icon>
+                        </mat-chip>
+                      </mat-chip-list>
+                    </div>
+                    <div class="col-sm-1 d-flex justify-content-center align-items-center" (click)="search.value=''; search.focus()">
+                      <button (click)="openUserListDP(userListDP, i)" mat-icon-button class="disabled-font-color"
+                        [ngClass]="{
+                          'primary-font-color': rolesWithUsers.isEnabled
+                        }">
+                        <mat-icon color="primary" class="float-left">add_circle_outline</mat-icon>
+                      </button>
+                      <mat-select color="primary" class="hidedropDown" panelClass="over_riderMatSelect"
+                        [(ngModel)]="rolesWithUsers.users" #userListDP multiple>
+                        <div class="menuSmart_Search">
+                          <input class="p-2 theme_color" placeholder="Search" (click)="$event.stopPropagation()"
+                              (keydown)="$event.stopPropagation();"
+                              (keyup)="search.value.length === 0 ? search.value='': '' " #search>
+                        </div>
+                        <div *ngFor="let userName of userList" [ngClass]="userName.toLowerCase( ).includes(search.value.toLowerCase( )) ? '' : 'd-none'">
+                          <mat-option [value]="userName"
+                          [matTooltip]="userName.length > 24 ? userName : ''">
+                          {{ userName }}
+                        </mat-option>
+                        </div>
+                        <div  *ngIf="userList.length"  class="text-center text-secondary p-2">
+                          {{getuserList(search.value).length === 0 ? 'User not found. Please verify and try again.' : ''}}
+                      </div>
+                      
+                      </mat-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-1 mt-2 white_bg d-flex justify-content-center align-items-center">
+                  <mat-slide-toggle [(ngModel)]="rolesWithUsers.isEnabled"></mat-slide-toggle>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-9 py-2">
+              <button mat-raised-button class="button-col role-txt" [matMenuTriggerFor]="roleMenu" (click)="search.value=''; search.focus()" style=" margin-left: 10px;
+              margin-top: 5px;">
+                Add Role
+              </button>
+              <mat-menu #roleMenu="matMenu" class="customize" xPosition="after">
+                <div class="menuSmart_Search">
+                  <input class="p-2 theme_color" placeholder="Search" (click)="$event.stopPropagation()" autocomplete="off"
+                    (keydown)="$event.stopPropagation();" (keyup)="serchFilter(search.value);search.value.length === 0 ? search.value='': '' " #search>
+                </div>
+                <div *ngFor="let r of serchFilter(search.value)">
+                  <button mat-menu-item (click)="addRole(r)">{{ r }}</button>
+                </div>
+                <div *ngIf="serchFilter.length" class="text-center text-secondary p-2">
+                  {{serchFilter(search.value).length === 0 ? 'No Records Found !' : ''}}
+                </div>
+              </mat-menu>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+  
+  
+      <div class="col-md-2" style="padding-left: 44% !important;">
+        <!-- <div *ngIf="isCall">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>   
+      </div> -->
+      </div>
+    </div>
+  </div>

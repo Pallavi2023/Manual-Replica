@@ -1,54 +1,45 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { WrapperComponent } from './components/wrapper/wrapper.component';
-import { UserComponent } from './components/user/user.component';
-//import { ProjectComponent } from './components/project/project.component';
-
-
+//import { WrapperComponent } from './component/wrapper/wrapper.component';
+import { HomeComponent } from './component/home/home.component';
+import { UserComponent } from './component/user/user.component';
+import { RoleComponent } from './component/role/role.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+//import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { HttpClientModule } from '@angular/common/http';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-
-//import { OperatorComponent } from './components/operator/operator.component';
-//import { AuditComponent } from './components/audit/audit.component';
-import { RoleComponent } from './components/role/role.component';
-import { MatCardModule } from '@angular/material/card';
-import { MatSelectModule } from '@angular/material/select';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-//import { MatSelectFilterModule } from 'mat-select-filter';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { FormsModule } from '@angular/forms';
-import { HomeComponent } from './components/home/home.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-//import { MatChipsModule } from '@angular/material/chips';
-import { ReactiveFormsModule } from '@angular/forms';
-import {RouterModule} from '@angular/router';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SessiontimeoutComponent } from './components/sessiontimeout/sessiontimeout.component';
-import { NgCircleProgressModule } from 'ng-circle-progress';
+import { ProjectComponent } from './component/project/project.component';
+
+
 
 @NgModule({
   declarations: [
-    WrapperComponent,
-    UserComponent,
-    //ProjectComponent,
-    //OperatorComponent,
-    //AuditComponent,
-    RoleComponent,
+    
     HomeComponent,
-    SessiontimeoutComponent
+    UserComponent,
+    RoleComponent,
+    ProjectComponent,
+  //CreateEditProjectComponent,
   ],
   imports: [
     CommonModule,
@@ -56,9 +47,9 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MatSidenavModule,
     MatListModule,
     MatToolbarModule,
-    //MatChipsModule,
+   MatChipsModule,
     MatIconModule,
-    MatTooltipModule,
+    //MatTooltipModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -66,6 +57,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     MatExpansionModule,
     FormsModule,
     MatDatepickerModule,
+    //MatDatepickerBase,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
@@ -74,21 +66,10 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     ReactiveFormsModule,
     MatMenuModule,
     MatAutocompleteModule,
-   // MatSelectFilterModule,
+    //MatSelectFilterModule,
     MatProgressSpinnerModule,
     RouterModule,
     MatSnackBarModule,
-    NgCircleProgressModule.forRoot({
-      // radius: 100,
-      // outerStrokeWidth: 10,
-      // space:-10,
-      // innerStrokeWidth: 8,
-      // toFixed:2,
-      // outerStrokeColor: "#78C000",
-      // innerStrokeColor: "#C7E596",
-      // animationDuration: 300,
-      // showSubtitle: false,
-    })
   ]
 })
 export class DashboardModule { }

@@ -1,0 +1,174 @@
+<div class="container-fluid">
+    <div class="row ">
+      <div class="mt-4">
+        <span class="heading">List Of Projects</span>
+        <button mat-raised-button color="Basic"
+          class="font-17 float-right btn-xs-block ml-2" style="color:#3CA7C5;" (click)="isFilterBtn = true">
+          Filter
+          <span *ngIf="isFilterShow || tableData.project.length || tableData.status.length " class="dot"></span>
+        </button>
+        <button *ngIf="this.projectPermissions.create" mat-raised-button color="primary"
+          class="font-17 float-right btn-xs-block btn-info" (click)="createProject()">
+          Create Project
+        </button>
+      </div>
+    </div>
+      <!-- <mat-accordion class="example-headers-align mt-3">
+        <mat-expansion-panel [expanded]="false" hideToggle="true" #filter>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="justify-content-start">
+              <mat-icon [ngClass]="{'primary-font-color' : filter.expanded , 'text-secondary' : !filter.expanded}">
+                {{filter.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+              </mat-icon>
+              <span class="ml-2"
+                [ngClass]="{'primary-font-color' : filter.expanded , 'text-secondary' : !filter.expanded}"> Filter </span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="invisible">Processing Time Taken By The Documents</span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <div class="row">
+  
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <mat-label>Project Name</mat-label>
+              <mat-form-field color="primary" appearance="outline">
+                <input matInput [(ngModel)]="tableData.project" autocomplete="off">
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <mat-label>Status</mat-label>
+              <mat-form-field appearance="outline" class="example-form-field">
+                <mat-select class="select_panel" [(ngModel)]="tableData.status">
+                  <mat-option value="enabled"> Active </mat-option>
+                  <mat-option value="disabled"> Inactive </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+  
+          </div>
+          <div class="text-right">
+            <button class="" mat-stroked-button (click)="clearFilter(tableData)">Clear</button>&nbsp;&nbsp;
+            <button mat-raised-button class="btn-info pl-1" (click)="searchByFilter(tableData)"> Apply </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+      <div class="row">
+      <div class="container  my-3"  [ngClass]="{'col-md-12' : !isFilterBtn , 'col-md-9' : isFilterBtn}">
+        <div *ngIf="dataSource?.filteredData?.length; else elseBlock">
+          <div class="tableScroll mat-elevation-z8">
+            <table mat-table id="matTable" [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortDirection="desc"
+            matSortActive="updated" matSortDisableClear>
+              <ng-container matColumnDef="project">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Project Name
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.project }}</td>
+              </ng-container>
+  
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  Start Date
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.startDate | date:'shortDate' }}</td>
+              </ng-container>
+  
+              <ng-container matColumnDef="endDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  End Date
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.endDate | date:'shortDate'}}</td>
+              </ng-container>
+  
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef class="heading-style">
+                  Status
+                </th>
+                <td mat-cell *matCellDef="let element" class="data-font">
+                  {{ element.status == "enabled" ? "Active" : "Inactive" }}
+                </td>
+              </ng-container>
+  
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                  <button *ngIf="this.projectPermissions.edit" mat-icon-button color="primary"
+                    [routerLink]="['./edit-project',row.id]">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button *ngIf="this.projectPermissions.delete" mat-icon-button color="warn"
+                    (click)="deleteProject(row.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-header"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"  [routerLink]="['./edit-project',row.id]"></tr>
+            </table>
+  
+            <mat-paginator class="mat-paginator-sticky" [pageSize]="tableData.size" [pageIndex]="pageIndex"
+              [length]="totalDocCount" [pageSizeOptions]="[10, 20, 50, 100, 200]" (page)="pageSizeChange($event)"
+              showFirstLastButtons aria-label="Select page of users">
+  
+            </mat-paginator>
+          </div>
+        </div>
+        <ng-template #elseBlock>
+          <div  *ngIf="isRecordLoaded" class="card bg-default h-100-pb30 opacity95 " style="margin-top: 1px;">
+            <div class="card-body pb-0">
+              <h3 class="text-center text-font">
+                <img class="mb-3 img-height" src="./../../../../assets/images/noRecord.png" alt="image"> <br>
+                {{dataSource.data.length ? 'No Records Found !' : 'There are no active projects at this moment.'}}
+              </h3>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class=" col-md-3 my-3" *ngIf="isFilterBtn">
+        <mat-card >
+          <div class="row">
+            <div class="col-md-10">
+              <span class="font-size">Apply filter</span>
+            </div>
+            <div class="col-md-2">
+              <mat-icon style="float:right; cursor: pointer;" (click)="isFilterBtn = false">close</mat-icon>
+            </div>
+            
+          </div>
+            <div class="row">
+              
+              <div class=" col-md-12 pt-2">
+                
+                <mat-form-field color="primary" appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input matInput [(ngModel)]="tableData.project" autocomplete="off">
+                </mat-form-field>
+              <!-- </div>
+            </div>
+            <div class="row">
+              <div class=" col-md-12"> -->
+               
+                <mat-form-field appearance="outline" class="example-form-field">
+                  <mat-label>Status</mat-label>
+                  <mat-select class="select_panel" [(ngModel)]="tableData.status">
+                    <mat-option value="enabled"> Active </mat-option>
+                    <mat-option value="disabled"> Inactive </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            
+  
+            <div class="text-right">
+              <button class="button-position" (click)="clearFilter(tableData)"   mat-stroked-button>Clear</button>
+              <button mat-raised-button class="btn-info pl-1 btn-position" (click)="searchByFilter(tableData)"> Apply </button>
+            </div>
+          </mat-card>
+            
+      
+      </div>
+    </div>
+  
+  </div>

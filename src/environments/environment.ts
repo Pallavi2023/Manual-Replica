@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://localhost:8080',
-  userSessionTimeOut: 900,
-  userSessionIdleTime: 1800,
+  apiUrl:'https://04c0-103-208-69-39.in.ngrok.io'
+  
 
 };
 

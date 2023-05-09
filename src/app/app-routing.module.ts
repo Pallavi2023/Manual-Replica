@@ -12,10 +12,12 @@ const routes: Routes = [
     redirectTo:'',
     pathMatch:'full'
   }
+
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true} )],
+  imports: [RouterModule.forRoot(routes,{useHash:  true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

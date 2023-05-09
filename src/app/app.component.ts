@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'RCM';
+  title = 'manual-medical-replica';
   constructor() {
     console.log("ENV", environment);
   }

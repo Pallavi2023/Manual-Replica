@@ -1,0 +1,107 @@
+<div class="container-fluid p-3">
+  <div class="row">
+  <div class="mt-3 pb-3">
+    <span class="head" >{{isCreateUserOperation?'Update Role':'Create New Role'}}</span>
+    <button
+      mat-raised-button
+      color="Basic"
+      class="font-17 float-right btn-xs-block btn-info"
+      [routerLink]="['/wrapper/role']"
+      style="margin-left: 8px;color: #3CA7C5;"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      class="font-17 float-right btn-xs-block btn-info btn-col"
+      (click)="addRole()"
+      *ngIf="this.isEdit == false"
+    >
+      Create</button
+    >&nbsp;
+    <button
+      mat-raised-button
+      color="primary"
+      class="font-17 float-right btn-xs-block btn-info btn-col"
+      (click)="updateRole()"
+      *ngIf="this.isEdit == true"
+    >
+      Update</button
+    >&nbsp;
+  </div>
+  <form [formGroup]="roleForm">
+    <mat-card class="border rounded ml-1">
+      <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Role Name</mat-label>
+            <input  matInput formControlName="role"[disabled]="role.disabled" matInput type="text"  minlength="3" maxlength="25" required #role
+            pattern='^([a-zA-Z0-9\ s])+([a-zA-Z0-9\s()]+)*(-[\(\)a-zA-Z0-9\s]+)*$'
+            (blur)="trim($event.target)" />
+            <mat-error>{{roleErrorMsg}}</mat-error> 
+            <mat-hint [align]="'end'">{{role.value.length}} / 15</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="col-sm-6 col-md-4 col-lg-4"
+          style="padding-left: 3%; margin-top: 1%"
+        >
+          <label class="heading-text">Status: &nbsp;</label>
+          <mat-slide-toggle formControlName="status" #myToggle>
+            <!-- {{myToggle.checked ? "Active" : "Inactive"}} -->
+          </mat-slide-toggle>
+        </div>
+
+        <div class="col-sm-12 mt-3 ">
+          <h6 class="heading-font">Permissions</h6>
+          <div class="jumbotron py-3 px-1 my-0" style="background-color: white;border: #d9dddc solid 1px;">
+              <div class="row">
+                  <div class="col-sm-10 col-md-11">
+                      <mat-chip-list aria-label="permissions">
+                          <mat-chip *ngFor="let permission of permissions; let i = index">{{ permission }}
+                              <mat-icon (click)="removePermission(permission)" matChipRemove>cancel</mat-icon>
+                          </mat-chip>
+                      </mat-chip-list>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-2 col-md-1 text-right mt-3 customPanel create-edit-role" >
+        <mat-select [(ngModel)]="permissions" #permissionListDropdown class="hidedropDown " (click)="search.value=''; search.focus()"
+            [ngModelOptions]="{standalone: true}" multiple>
+            <div class="menuSmart_Search">
+                <input class="p-2" style="background-color: white;border: none;" placeholder="Search" (click)="$event.stopPropagation()"
+                    (keydown)="$event.stopPropagation();"
+                    (keyup)="search.value.length === 0 ? search.value='': '' " #search>
+            </div>
+            <!-- <div *ngFor="let permission of filteredPermissions">
+                <mat-option [value]="permission.permission"  >
+                    {{ permission.permission }}
+                </mat-option>
+            </div> -->
+            <div *ngFor="let permission of getPermissionList(search.value)">
+              <mat-option [value]="permission.permission"  >
+                {{ permission.permission }}
+            </mat-option>            </div>
+            <div *ngIf="getPermissionList.length" class="text-center text-secondary p-2">
+              {{getPermissionList(search.value).length === 0 ? 'No Records Found !' : ''}}
+            </div>
+        </mat-select>
+        <span class="text-scondary ml-auto ">
+            <button mat-raised-button color="" (click)="permissionListDropdown.open()" class="permission">
+                Add permission
+            </button>
+        </span>
+    </div>
+    </div>
+    </mat-card>
+  </form>
+  <div class="col-md-2" style="padding-left: 44% !important;">    
+    <!-- <div *ngIf="isCall">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>   
+  </div> -->
+  </div>
+</div>
+</div>
