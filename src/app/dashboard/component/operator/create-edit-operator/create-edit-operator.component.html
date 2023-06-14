@@ -1,0 +1,195 @@
+<div class="container-fluid p-3">
+    <div class="row">
+      <div class="mt-3 pb-3">
+  
+      <span class="head" >{{isCreateUserOperation?'Update Entry':'Create New Entry'}}</span>
+        <button mat-raised-button color="Basic" class="font-17 float-right btn-xs-block btn-info"
+          [routerLink]="['/wrapper/operator']" style="color: #3CA7C5;">
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" class="font-17 float-right btn-xs-block btn-info btn-col"
+        style="margin-right: 8px" (click)="saveDraft()" *ngIf="auditStatus != 'Submitted'&& auditStatus != 'Audited' && auditStatus != 'Audit Pending' && (username !='platform-admin@neutrinotechsystems.com')">
+          Save Draft
+        </button>
+        <button mat-raised-button color="primary" class="font-17 float-right btn-xs-block btn-info btn-col"
+        style="margin-right: 8px" (click)="addOperator()" *ngIf="this.isEdit == false && auditStatus != 'Submitted' && auditStatus != 'Audited' && auditStatus != 'Audit Pending' && (username !='platform-admin@neutrinotechsystems.com')">
+          Submit
+        </button>
+  
+        <button mat-raised-button color="primary" class="font-17 float-right btn-xs-block btn-info btn-col"
+        (click)="updateOperator()" *ngIf="this.isEdit == true && auditStatus != 'Submitted'&& auditStatus != 'Audited' && auditStatus != 'Audit Pending' && (username !='platform-admin@neutrinotechsystems.com')" style="margin-right: 8px">
+          Submit</button>&nbsp;
+      </div>
+  
+      <form [formGroup]="operatorForm">
+        <mat-card class="border rounded my-2">
+          <div class="row">
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Project Name</mat-label>
+  
+                <input formControlName="projectName" matInput type="text" />
+                <mat-error *ngIf="operatorForm.controls['projectName'].hasError('required')">Please enter Project Name.
+                </mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Coding Date</mat-label>
+  
+                <input formControlName="date" matInput [matDatepicker]="picker" />
+              <mat-error *ngIf="operatorForm.controls['date'].hasError('required')">Please enter Coding Date in MM/DD/YYYY
+                  format.</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Login Name</mat-label>
+  
+                <input formControlName="loginName" matInput type="text" />
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Docx/Chart ID</mat-label>
+  
+                <input formControlName="chartId" matInput type="text" ng-required="true" />
+              <mat-error *ngIf="operatorForm.controls['chartId'].hasError('required')">Please enter Chart Id.</mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Total DOS</mat-label>
+  
+                <input formControlName="dos" matInput type="number" />
+                <mat-error *ngIf="operatorForm.controls['dos'].hasError('required')">Please enter Total DOS.</mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Total ICD</mat-label>
+  
+                <input formControlName="icd" matInput type="number" />
+                <mat-error *ngIf="operatorForm.controls['icd'].hasError('required')">Please enter Total ICD.</mat-error>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Total Page</mat-label>
+  
+                <input formControlName="page" matInput type="number" />
+                <mat-error *ngIf="operatorForm.controls['page'].hasError('required')">Please enter Total Page.</mat-error>
+  
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>No. Of Document Reviewed</mat-label>
+  
+                <input formControlName="document" matInput type="number" />
+              </mat-form-field>
+            </div>
+  
+  
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline" class="example-form-field">
+                <mat-label>Chart Note</mat-label>
+  
+                <mat-select formControlName="chartNote">
+                  <mat-option>Select</mat-option>
+                  <mat-option value="Admin Document Only">Admin Document Only</mat-option>
+                  <mat-option value="Demographics mismatch entire medical record">Demographics mismatch entire medical
+                    record</mat-option>
+                  <mat-option value="Duplicate medical record">Duplicate medical record</mat-option>
+                  <mat-option value="Handwritten medical record entirely illegible">Handwritten medical record entirely
+                    illegible</mat-option>
+                  <mat-option value="Incorrect member record">Incorrect member record</mat-option>
+                  <mat-option value="Medical record missing dated of service">Medical record missing dated of service
+                  </mat-option>
+                  <mat-option value="Medical record missing member name">Medical record missing member name</mat-option>
+                  <mat-option value="No HCCs to capture">No HCCs to capture</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline" class="example-form-field">
+                <mat-label>Suggest</mat-label>
+  
+                <mat-select formControlName="suggest">
+                  <mat-option>Select</mat-option>
+                  <mat-option value="NTA">NTA</mat-option>
+                  <mat-option value="DU">DU</mat-option>
+                </mat-select>
+              <mat-error *ngIf="operatorForm.controls['suggest'].hasError('required')">Please select Suggest.</mat-error>
+  
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline" class="example-form-field">
+                <mat-label>Chart Status</mat-label>
+  
+                <mat-select formControlName="chatStatus">
+                  <mat-option>Select</mat-option>
+                  <mat-option value="Completed">Completed</mat-option>
+                  <mat-option value="Rejected">Rejected</mat-option>
+                  <mat-option value="Clarification Hold">Clarification Hold</mat-option>
+                </mat-select>
+                <mat-error *ngIf="operatorForm.controls['chatStatus'].hasError('required')">Please select Chart Status.
+                </mat-error>
+  
+              </mat-form-field>
+            </div>
+  
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline" class="example-form-field">
+                <mat-label>Current Queue</mat-label>
+  
+                <mat-select formControlName="currentQueue">
+                  <mat-option>Select</mat-option>
+                  <mat-option value="Coding Completed">Coding Completed</mat-option>
+                  <mat-option value="Coding in Progress">Coding in Progress</mat-option>
+                <mat-option value="Pending coding after QA resubmission">Pending coding after QA resubmission</mat-option>
+                  <mat-option value="Pending for QA level 1">Pending for QA level 1</mat-option>
+                  <mat-option value="QA level 1 Completed">QA level 1 Completed</mat-option>
+                  <mat-option value="QA level 1 in Progress w/out FB">QA level 1 in Progress w/out FB</mat-option>
+                  <mat-option value="QA level 2 Completed">QA level 2 Completed</mat-option>
+                  <mat-option value="Send to client -with HCC codes">Send to client -with HCC codes</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Coder Name</mat-label>
+  
+                <input formControlName="coderName" matInput type="text" />
+              </mat-form-field>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <mat-form-field appearance="outline">
+                <mat-label>coder Id</mat-label>
+  
+                <input formControlName="coderEmpId" matInput type="number" />
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+      </form>
+      <div class="col-md-2" style="padding-left: 44% !important;">
+        <!-- <div *ngIf="isCall">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>   
+    </div> -->
+      </div>
+    </div>
+  </div>
